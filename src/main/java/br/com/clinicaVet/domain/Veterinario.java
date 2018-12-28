@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -18,8 +19,18 @@ public class Veterinario extends BaseDomain {
 	private Integer id;
 
 	@NotNull(message = "Nome do vaterinario nao pode ser nulo")
+	@NotEmpty(message = "Nome do vaterinario nao pode ser vazio")
+	@Column(name = "nome_veterinario")
 	private String nomeVeterinario;
+
+	@NotNull(message = "Cpf nao pode ser nulo")
+	@NotEmpty(message = "Cpf nao pode ser vazio")
 	private String cpf;
+
+	@SuppressWarnings("unused")
+	private Veterinario() {
+		// construtor for hibernate
+	}
 
 	public Veterinario(String nomeVeterinario, String cpf) {
 		this.nomeVeterinario = nomeVeterinario;

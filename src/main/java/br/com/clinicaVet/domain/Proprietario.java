@@ -20,6 +20,7 @@ public class Proprietario extends BaseDomain {
 
 	@NotNull(message = "Nome do proprietario nao pode ser nulo")
 	@NotEmpty(message = "Nome do proprietario nao pode ser vazio")
+	@Column(name = "nome_proprietario")
 	private String nomeProprietario;
 
 	private String endereco;
