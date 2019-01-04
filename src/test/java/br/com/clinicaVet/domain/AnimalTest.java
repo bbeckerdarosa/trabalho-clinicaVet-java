@@ -23,7 +23,6 @@ public class AnimalTest {
 		Assert.assertEquals(dataNascimento, animal.getDataNascimento());
 		Assert.assertEquals(TipoAnimal.CACHORRO, animal.getTipoAnimal());
 	}
-	
 
 	@Test(expected = DominioInvalidoException.class)
 	public void deveValidarDadosNulos() {

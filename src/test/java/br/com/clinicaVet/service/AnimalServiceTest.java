@@ -5,17 +5,15 @@ import java.time.Month;
 
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.clinicaVet.domain.Animal;
 import br.com.clinicaVet.domain.Proprietario;
+import br.com.clinicaVet.dto.AnimalDTO;
 import br.com.clinicaVet.domain.Animal.TipoAnimal;
-import br.com.clinicaVet.repository.ProprietarioRepository;
 
 @RunWith(value = SpringRunner.class)
 @SpringBootTest
@@ -24,17 +22,6 @@ public class AnimalServiceTest {
 	@Autowired
 	private AnimalService animalService;
 
-	@Autowired
-	private ProprietarioRepository proprietarioRepository;
-
-	private Proprietario barbara;
-
-	@Before
-	public void init() {
-		barbara = new Proprietario("Barbara Becker", "Rua Molias", "45", "51998786766", "52113441039");
-		proprietarioRepository.saveAndFlush(barbara);
-	}
-
 	@After
 	public void finished() {
 		animalService.deleteAll();
@@ -42,17 +29,22 @@ public class AnimalServiceTest {
 
 	@Test
 	public void deveSalvarUmAnimal() {
-		Animal snow = new Animal("Snow", "Shih-Tzu", barbara, "568999", LocalDate.of(2017, Month.SEPTEMBER, 11),
-				TipoAnimal.CACHORRO);
-		animalService.save(snow);
+		Proprietario barbara = new Proprietario("Barbara Becker", "Rua Mali", "405", "51996859978", "86878506034");
+		AnimalDTO animalParaSalvar = new AnimalDTO();
+		animalParaSalvar.setNomeAnimal("Snow");
+		animalParaSalvar.setRaca("Shih-Tzu");
+		animalParaSalvar.setProprietario(barbara);
+		animalParaSalvar.setNroChip("48596");
+		animalParaSalvar.setDataNascimento(LocalDate.of(2017, Month.SEPTEMBER, 11));
+		animalParaSalvar.setTipoAnimal(TipoAnimal.CACHORRO);
 
-		Animal animalSalvo = animalService.findByNrmChip("568999");
+		animalService.save(animalParaSalvar);
+		AnimalDTO animalSalvo = animalService.findByNroChip("48596");
 		Assert.assertEquals("Snow", animalSalvo.getNomeAnimal());
-		Assert.assertEquals("Shih-Tzu", snow.getRaca());
-		Assert.assertEquals(barbara, snow.getProprietario());
-		Assert.assertEquals("Shih-Tzu", snow.getRaca());
-		Assert.assertEquals("568999", snow.getNroChip());
+		Assert.assertEquals("Shih-Tzu", animalSalvo.getRaca());
+		Assert.assertEquals(barbara, animalSalvo.getProprietario());
+		Assert.assertEquals("568999", animalSalvo.getNroChip());
 		Assert.assertNotNull(LocalDate.of(2017, Month.SEPTEMBER, 11));
-		Assert.assertEquals(TipoAnimal.CACHORRO, snow.getTipoAnimal());
+		Assert.assertEquals(TipoAnimal.CACHORRO, animalSalvo.getTipoAnimal());
 	}
 }

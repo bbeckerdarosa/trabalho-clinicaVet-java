@@ -13,9 +13,9 @@ import br.com.clinicaVet.domain.Animal;
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
 
 	@Query("SELECT COUNT(1) AS existe FROM Animal a WHERE a.nroChip = :nroChip")
-	public Long validateExistAnimalByNrmChip(@Param("nroChip") String nroChip);
+	public Long validateExistAnimalByNroChip(@Param("nroChip") String nroChip);
 
 	@Query("SELECT a FROM Animal a WHERE a.nroChip = :nroChip")
-	public Optional<Animal> findByNrmChip(@Param("nroChip") String nroChip);
+	public Optional<Animal> findByNroChip(@Param("nroChip") String nroChip);
 
 }

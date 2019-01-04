@@ -41,15 +41,14 @@ public class ProprietarioServiceTest {
 
 	}
 
-	//
-	// @Test(expected = ServiceException.class)
-	// public void deveValidarProprietarioJaCadastradoPeloCpf() {
-	// Proprietario joao = new Proprietario("Joao da Silva", "Rua Virginia", "45",
-	// "999876755", "91964531098");
-	// proprietarioService.save(joao);
-	// proprietarioService.save(joao);
-	// }
-	//
+	
+	 @Test(expected = ServiceException.class)
+	 public void deveValidarProprietarioJaCadastradoPeloCpf() {
+	 ProprietarioDTO joao = new ProprietarioDTO();
+	 proprietarioService.save(joao);
+	 proprietarioService.save(joao);
+	 }
+	
 	// @Test
 	// public void deveExcluirProprietario() {
 	// Proprietario marcos = new Proprietario("Marcos Barruffe", "Rua Higienopolis",

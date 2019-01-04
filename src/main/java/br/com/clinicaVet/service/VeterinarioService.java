@@ -1,11 +1,14 @@
 package br.com.clinicaVet.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.clinicaVet.domain.Veterinario;
+import br.com.clinicaVet.dto.VeterinarioDTO;
 import br.com.clinicaVet.repository.VeterinarioRepository;
 
 @Service
@@ -22,28 +25,44 @@ public class VeterinarioService {
 		this.veterinarioRepository.deleteAll();
 	}
 
-	public void save(Veterinario veterinario) {
-		validarInsertVeterinario(veterinario);
+	public void save(VeterinarioDTO veterinarioDTO) {
+		String nomeVeterinario = veterinarioDTO.getNomeVeterinario();
+		String cpf = veterinarioDTO.getCpf();
+
+		Veterinario veterinario = new Veterinario(nomeVeterinario, cpf);
 		this.veterinarioRepository.saveAndFlush(veterinario);
 	}
 
-	private void validarInsertVeterinario(Veterinario veterinario) {
-		Long numberOfVeterinarioWithCPF = veterinarioRepository.validateExistVeterinarioByCpf(veterinario.getCpf());
-		if (numberOfVeterinarioWithCPF > 0) {
-			throw new ServiceException("Veterinario já cadastrado");
-		}
+	private VeterinarioDTO criarVeterinarioDTO(Veterinario veterinario) {
+		VeterinarioDTO veterinarioDTO = new VeterinarioDTO();
+		veterinarioDTO.setId(veterinario.getId());
+		veterinarioDTO.setNomeVeterinario(veterinario.getNomeVeterinario());
+		veterinarioDTO.setCpf(veterinario.getCpf());
+		return veterinarioDTO;
 	}
 
-	public Veterinario findByCpf(String cpf) {
-		Optional<Veterinario> veterinarioEncontrado = veterinarioRepository.findByCpf(cpf);
-		if (veterinarioEncontrado.isPresent()) {
-			return veterinarioEncontrado.get();
+	public VeterinarioDTO findByCpf(String cpf) {
+		Optional<Veterinario> veterinario = veterinarioRepository.findByCpf(cpf);
+		if (veterinario.isPresent()) {
+			VeterinarioDTO veterinarioDTO = criarVeterinarioDTO(veterinario.get());
+			return veterinarioDTO;
 		}
 		throw new ServiceException("Veterinario não encontrado");
 	}
 
-	public void delete(Veterinario veterinario) {
-		this.veterinarioRepository.delete(veterinario);
+	public void delete(Integer id) {
+		this.veterinarioRepository.deleteById(id);
+	}
+
+	public List<VeterinarioDTO> findAll() {
+		List<VeterinarioDTO> todosVeterinarios = new ArrayList<VeterinarioDTO>();
+		List<Veterinario> veterinarios = veterinarioRepository.findAll();
+
+		for (Veterinario veterinario : veterinarios) {
+			VeterinarioDTO veterinarioDTO = criarVeterinarioDTO(veterinario);
+			todosVeterinarios.add(veterinarioDTO);
+		}
+		return todosVeterinarios;
 	}
 
 }

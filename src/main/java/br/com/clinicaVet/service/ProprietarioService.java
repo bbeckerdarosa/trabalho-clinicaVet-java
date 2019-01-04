@@ -55,14 +55,7 @@ public class ProprietarioService {
 		}
 		throw new ServiceException("Proprietario não encontrado");
 	}
-
-	// private void validarInsertProprietario(Proprietario proprietario) {
-	// Long numberOfProprietarioWithCPF =
-	// proprietarioRepository.validateExistProprietarioByCpf(proprietario.getCpf());
-	// if (numberOfProprietarioWithCPF > 0) {
-	// throw new ServiceException("Proprietario já cadastrado");
-	// }
-	// }
+	
 
 	public void delete(Integer id) {
 		this.proprietarioRepository.deleteById(id);

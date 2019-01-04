@@ -1,6 +1,7 @@
 package br.com.clinicaVet.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import br.com.clinicaVet.domain.Proprietario;
 import br.com.clinicaVet.domain.Animal.TipoAnimal;
+import br.com.clinicaVet.domain.HistoricoConsulta;
 
 public class AnimalDTO {
 
@@ -33,7 +35,7 @@ public class AnimalDTO {
 	@NotNull
 	private LocalDate dataNascimento;
 
-	private String historicoConsulta;
+	private List<HistoricoConsulta> historicoConsulta;
 
 	private TipoAnimal tipoAnimal;
 
@@ -85,11 +87,11 @@ public class AnimalDTO {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getHistoricoConsulta() {
+	public List<HistoricoConsulta> getHistoricoConsulta() {
 		return historicoConsulta;
 	}
 
-	public void setHistoricoConsulta(String historicoConsulta) {
+	public void setHistoricoConsulta(List<HistoricoConsulta> historicoConsulta) {
 		this.historicoConsulta = historicoConsulta;
 	}
 
