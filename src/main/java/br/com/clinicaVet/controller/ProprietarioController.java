@@ -48,8 +48,8 @@ public class ProprietarioController {
 	}
 
 	@DeleteMapping(value = "/proprietario/{id}")
-	public ResponseEntity<?> deletar(@PathVariable("id") Integer id) {
-		this.proprietarioService.delete(id);
+	public ResponseEntity<?> deletar(@PathVariable("cpf") String cpf) {
+		this.proprietarioService.deleteByCpf(cpf);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

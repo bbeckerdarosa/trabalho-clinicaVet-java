@@ -55,10 +55,12 @@ public class ProprietarioService {
 		}
 		throw new ServiceException("Proprietario não encontrado");
 	}
-	
 
-	public void delete(Integer id) {
-		this.proprietarioRepository.deleteById(id);
+	public void deleteByCpf(String cpf) {
+		Optional<Proprietario> proprietario = proprietarioRepository.findByCpf(cpf);
+		if (proprietario.isPresent()) {
+			proprietarioRepository.deleteById(proprietario.get().getId());
+		}
 	}
 
 	public Proprietario update(ProprietarioDTO proprietarioDTO) {

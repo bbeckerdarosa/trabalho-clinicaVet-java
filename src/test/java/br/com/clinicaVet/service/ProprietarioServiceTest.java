@@ -24,58 +24,57 @@ public class ProprietarioServiceTest {
 
 	@Test
 	public void deveSalvarUmProprietario() {
-		ProprietarioDTO proprietarioParaSalvar = new ProprietarioDTO();
-		proprietarioParaSalvar.setNomeProprietario("Barbara Becker");
-		proprietarioParaSalvar.setEndereco("Rua Tobias Barreto");
-		proprietarioParaSalvar.setNumero("45");
-		proprietarioParaSalvar.setTelefone("51994567768");
-		proprietarioParaSalvar.setCpf("68658693031");
+		ProprietarioDTO proprietarioDTO = new ProprietarioDTO();
+		proprietarioDTO.setNomeProprietario("Barbara Becker");
+		proprietarioDTO.setEndereco("Rua Tobias Barreto");
+		proprietarioDTO.setNumero("45");
+		proprietarioDTO.setTelefone("51994567768");
+		proprietarioDTO.setCpf("68658693031");
 
-		proprietarioService.save(proprietarioParaSalvar);
+		proprietarioService.save(proprietarioDTO);
 		ProprietarioDTO proprietarioSalvo = proprietarioService.findByCpf("68658693031");
-		Assert.assertEquals("Barbara Becker", proprietarioSalvo.getNomeProprietario());
-		Assert.assertEquals("45", proprietarioSalvo.getNumero());
-		Assert.assertEquals("51994567768", proprietarioSalvo.getTelefone());
-		Assert.assertEquals("68658693031", proprietarioSalvo.getCpf());
-		Assert.assertEquals("Rua Tobias Barreto", proprietarioSalvo.getEndereco());
+		Assert.assertEquals(proprietarioDTO.getNomeProprietario(), proprietarioSalvo.getNomeProprietario());
+		Assert.assertEquals(proprietarioDTO.getNumero(), proprietarioSalvo.getNumero());
+		Assert.assertEquals(proprietarioDTO.getTelefone(), proprietarioSalvo.getTelefone());
+		Assert.assertEquals(proprietarioDTO.getCpf(), proprietarioSalvo.getCpf());
+		Assert.assertEquals(proprietarioDTO.getEndereco(), proprietarioSalvo.getEndereco());
 
 	}
 
-	
-	 @Test(expected = ServiceException.class)
-	 public void deveValidarProprietarioJaCadastradoPeloCpf() {
-	 ProprietarioDTO joao = new ProprietarioDTO();
-	 proprietarioService.save(joao);
-	 proprietarioService.save(joao);
-	 }
-	
-	// @Test
-	// public void deveExcluirProprietario() {
-	// Proprietario marcos = new Proprietario("Marcos Barruffe", "Rua Higienopolis",
-	// "120", "999845662",
-	// "07683750026");
-	//
-	// proprietarioService.save(marcos);
-	// proprietarioService.delete(marcos);
-	// }
-	//
-	// @Test
-	// public void deveAtualizarEnderecoETelefoneDoProprietario() {
-	// Proprietario adrian = new Proprietario("Adrian Lemes", "Av. Ipiranga", "85",
-	// "997425563", "77774191020");
-	// proprietarioService.save(adrian);
-	//
-	// Proprietario adrianSalvo = proprietarioService.findByCpf("77774191020");
-	//
-	// Proprietario updateAdrian = new Proprietario(adrianSalvo.getId(), "Adrian
-	// Lemes", "Av. Bento Gonçalves", "NA", "997425565", "77774191020");
-	// proprietarioService.update(adrian);
-	// Proprietario adrianAtualizado = proprietarioService.findByCpf("77774191020");
-	//
-	// Assert.assertEquals("Av. Bento Gonçalves", updateAdrian.getEndereco());
-	// Assert.assertEquals("NA", updateAdrian.getNumero());
-	// Assert.assertEquals("997425565", updateAdrian.getTelefone());
-	// Assert.assertEquals("77774191020", adrianAtualizado.getCpf());
-	//
-	// }
+	@Test(expected = ServiceException.class)
+	public void deveExcluirProprietario() {
+		ProprietarioDTO proprietarioDTO = new ProprietarioDTO();
+		proprietarioDTO.setNomeProprietario("Barbara Becker");
+		proprietarioDTO.setEndereco("Rua Tobias Barreto");
+		proprietarioDTO.setNumero("45");
+		proprietarioDTO.setTelefone("51994567768");
+		proprietarioDTO.setCpf("68658693031");
+
+		proprietarioService.save(proprietarioDTO);
+		proprietarioService.deleteByCpf("68658693031");
+		proprietarioService.findByCpf("68658693031");
+	}
+
+	@Test
+	public void deveEditarEnderecoNumeroETelefone() {
+		ProprietarioDTO proprietarioDTO = new ProprietarioDTO();
+		proprietarioDTO.setNomeProprietario("Barbara Becker");
+		proprietarioDTO.setEndereco("Rua Tobias Barreto");
+		proprietarioDTO.setNumero("45");
+		proprietarioDTO.setTelefone("51994567768");
+		proprietarioDTO.setCpf("68658693031");
+		proprietarioService.save(proprietarioDTO);
+
+		ProprietarioDTO proprietarioParaEditar = proprietarioService.findByCpf("68658693031");
+		proprietarioParaEditar.setEndereco("Rua Marrocos");
+		proprietarioParaEditar.setNumero("670");
+		proprietarioParaEditar.setTelefone("51988459632");
+		proprietarioService.update(proprietarioParaEditar);
+
+		ProprietarioDTO proprietarioEditado = proprietarioService.findByCpf("68658693031");
+		Assert.assertEquals("Rua Marrocos", proprietarioEditado.getEndereco());
+		Assert.assertEquals("670", proprietarioEditado.getNumero());
+		Assert.assertEquals("51988459632", proprietarioEditado.getTelefone());
+
+	}
 }
