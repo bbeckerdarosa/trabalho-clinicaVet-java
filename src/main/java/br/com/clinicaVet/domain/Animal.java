@@ -110,6 +110,10 @@ public class Animal extends BaseDomain {
 	public List<HistoricoConsulta> getHistoricoConsulta() {
 		return historicoConsulta;
 	}
+	
+	public void setNovoHistorico(HistoricoConsulta historicoConsulta) {
+		this.historicoConsulta.add(historicoConsulta);
+	}
 
 	public TipoAnimal getTipoAnimal() {
 		return tipoAnimal;

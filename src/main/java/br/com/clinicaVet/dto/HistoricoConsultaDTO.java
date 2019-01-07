@@ -16,7 +16,7 @@ public class HistoricoConsultaDTO {
 	@NotEmpty
 	private String diagnostico;
 
-	private String veterinario;
+	private String cpfVeterinario;
 
 	public Integer getId() {
 		return id;
@@ -42,12 +42,12 @@ public class HistoricoConsultaDTO {
 		this.diagnostico = diagnostico;
 	}
 
-	public String getVeterinario() {
-		return veterinario;
+	public String getCpfVeterinario() {
+		return cpfVeterinario;
 	}
 
-	public void setVeterinario(String veterinario) {
-		this.veterinario = veterinario;
+	public void setCpfVeterinario(String cpfVeterinario) {
+		this.cpfVeterinario = cpfVeterinario;
 	}
 
 }

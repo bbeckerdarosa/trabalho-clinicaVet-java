@@ -65,4 +65,11 @@ public class VeterinarioService {
 		return todosVeterinarios;
 	}
 
+	public void deleteByCpf(String cpf) {
+		Optional<Veterinario> veterinario = veterinarioRepository.findByCpf(cpf);
+		if (veterinario.isPresent()) {
+			veterinarioRepository.deleteById(veterinario.get().getId());
+		}
+	}
+
 }
