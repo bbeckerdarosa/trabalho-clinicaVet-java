@@ -7,22 +7,34 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.clinicaVet.domain.Animal;
 import br.com.clinicaVet.domain.Animal.TipoAnimal;
 import br.com.clinicaVet.domain.HistoricoConsulta;
 import br.com.clinicaVet.domain.Proprietario;
+import br.com.clinicaVet.domain.Veterinario;
 import br.com.clinicaVet.dto.AnimalDTO;
+import br.com.clinicaVet.dto.HistoricoConsultaDTO;
 import br.com.clinicaVet.repository.AnimalRepository;
+import br.com.clinicaVet.repository.ProprietarioRepository;
+import br.com.clinicaVet.repository.VeterinarioRepository;
 
 @Service
+@Transactional
 public class AnimalService {
 
 	private AnimalRepository animalRepository;
 
+	private VeterinarioRepository veterinarioRepository;
+
+	private ProprietarioRepository proprietarioRepository;
+
 	@Autowired
-	public AnimalService(AnimalRepository animalRepository) {
+	public AnimalService(AnimalRepository animalRepository, VeterinarioRepository veterinarioRepository,ProprietarioRepository proprietarioRepository) {
 		this.animalRepository = animalRepository;
+		this.veterinarioRepository = veterinarioRepository;
+		this.proprietarioRepository = proprietarioRepository;
 	}
 
 	public void deleteAll() {
@@ -30,9 +42,10 @@ public class AnimalService {
 	}
 
 	public void save(AnimalDTO animalDTO) {
+		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository.findByCpf(animalDTO.getCpfProprietario());
 		String nomeAnimal = animalDTO.getNomeAnimal();
 		String raca = animalDTO.getRaca();
-		Proprietario proprietario = animalDTO.getProprietario();
+		Proprietario proprietario = proprietarioEncontrado.get();
 		String nroChip = animalDTO.getNroChip();
 		LocalDate dataNascimento = animalDTO.getDataNascimento();
 		TipoAnimal tipoAnimal = animalDTO.getTipoAnimal();
@@ -46,12 +59,28 @@ public class AnimalService {
 		animalDTO.setId(animal.getId());
 		animalDTO.setNomeAnimal(animal.getNomeAnimal());
 		animalDTO.setRaca(animal.getRaca());
-		animalDTO.setProprietario(animal.getProprietario());
+		animalDTO.setProprietario(animal.getProprietario().getNomeProprietario());
+		animalDTO.setCpfProprietario(animal.getProprietario().getCpf());
 		animalDTO.setNroChip(animal.getNroChip());
 		animalDTO.setDataNascimento(animal.getDataNascimento());
-		animalDTO.setHistoricoConsulta(animal.getHistoricoConsulta());
+		animalDTO.setHistoricoConsulta(criarHistoricoConsulta(animal.getHistoricoConsulta()));
 		animalDTO.setTipoAnimal(animal.getTipoAnimal());
 		return animalDTO;
+	}
+
+	private List<HistoricoConsultaDTO> criarHistoricoConsulta(List<HistoricoConsulta> historicoConsultas) {
+		List<HistoricoConsultaDTO> retorno = new ArrayList<>();
+
+		for (HistoricoConsulta historicoConsulta : historicoConsultas) {
+			HistoricoConsultaDTO historicoDTO = new HistoricoConsultaDTO();
+			historicoDTO.setId(historicoConsulta.getId());
+			historicoDTO.setDataAtendimento(historicoConsulta.getDataAtendimento());
+			historicoDTO.setDiagnostico(historicoConsulta.getDiagnostico());
+			historicoDTO.setCpfVeterinario(historicoConsulta.getVeterinario().getNomeVeterinario());
+			retorno.add(historicoDTO);
+		}
+
+		return retorno;
 	}
 
 	public AnimalDTO findByNroChip(String nroChip) {
@@ -68,16 +97,25 @@ public class AnimalService {
 	}
 
 	public Animal update(AnimalDTO animalDTO) {
+		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository.findByCpf(animalDTO.getCpfProprietario());
+
+		Integer id = animalDTO.getId();
 		String nomeAnimal = animalDTO.getNomeAnimal();
 		String raca = animalDTO.getRaca();
-		Proprietario proprietario = animalDTO.getProprietario();
+		Proprietario proprietario = proprietarioEncontrado.get();
 		String nroChip = animalDTO.getNroChip();
 		LocalDate dataNascimento = animalDTO.getDataNascimento();
-		List<HistoricoConsulta> historicoConsulta = animalDTO.getHistoricoConsulta();
 		TipoAnimal tipoAnimal = animalDTO.getTipoAnimal();
 
-		Animal animal = new Animal(nomeAnimal, raca, proprietario, nroChip, dataNascimento, tipoAnimal);
+		Animal animal = new Animal(id, nomeAnimal, raca, proprietario, nroChip, dataNascimento, tipoAnimal);
 		return this.animalRepository.saveAndFlush(animal);
+	}
+
+	public void deleteByNroChip(String nroChip) {
+		Optional<Animal> animal = animalRepository.findByNroChip(nroChip);
+		if (animal.isPresent()) {
+			animalRepository.deleteById(animal.get().getId());
+		}
 	}
 
 	public List<AnimalDTO> findAll() {
@@ -89,6 +127,23 @@ public class AnimalService {
 			todosAnimais.add(animalDTO);
 		}
 		return todosAnimais;
+	}
+
+	public void salvarConsulta(String nroChip, HistoricoConsultaDTO historicoConsultaDTO) {
+		// Buscar o veterinário
+		Optional<Veterinario> veterinarioEncontrado = this.veterinarioRepository.findByCpf(historicoConsultaDTO.getCpfVeterinario());
+
+		// buscar animal
+		Optional<Animal> animalEncontrado = this.animalRepository.findByNroChip(nroChip);
+
+		if (animalEncontrado.isPresent()) {
+			Animal animal = animalEncontrado.get();
+			String diagnostico = historicoConsultaDTO.getDiagnostico();
+			Veterinario veterinario = veterinarioEncontrado.get();
+			HistoricoConsulta historicoConsulta = new HistoricoConsulta(diagnostico, veterinario);
+			animal.adicionarConsulta(historicoConsulta);
+			this.animalRepository.saveAndFlush(animal);
+		}
 	}
 
 }

@@ -16,20 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.clinicaVet.domain.HistoricoConsulta;
-import br.com.clinicaVet.domain.Veterinario;
 import br.com.clinicaVet.dto.AnimalDTO;
 import br.com.clinicaVet.dto.HistoricoConsultaDTO;
-import br.com.clinicaVet.dto.VeterinarioDTO;
 import br.com.clinicaVet.service.AnimalService;
-import br.com.clinicaVet.service.VeterinarioService;
 
 @RestController
 @RequestMapping(value = "clinicaVet")
 public class AnimalController {
 
 	private AnimalService animalService;
-	private VeterinarioService veterinarioService;
 
 	@Autowired
 	public AnimalController(AnimalService animalService) {
@@ -55,16 +50,8 @@ public class AnimalController {
 	}
 
 	@PostMapping(value = "/animal/{nroChip}/realizar-consulta")
-	public ResponseEntity<?> salvarConsulta(@PathParam("nroChip") String nroChip,
-			@RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
-		// Buscar o veterinário
-		VeterinarioDTO veterinario = this.veterinarioService.findByCpf(historicoConsultaDTO.getCpfVeterinario());
-		// buscar animal
-		AnimalDTO animal = this.animalService.findByNroChip(nroChip);
-		List<HistoricoConsulta> novaListaHistorico = animal.getHistoricoConsulta();
-//		HistoricoConsulta novoHistorico = new HistoricoConsulta();
-//		animal.setHistoricoConsulta(novoHistorico);
-		this.animalService.save(animal);
+	public ResponseEntity<?> salvarConsulta(@PathParam("nroChip") String nroChip, @RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
+		this.animalService.salvarConsulta(nroChip, historicoConsultaDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

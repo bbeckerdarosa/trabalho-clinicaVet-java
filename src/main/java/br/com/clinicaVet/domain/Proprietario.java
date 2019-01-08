@@ -45,8 +45,7 @@ public class Proprietario extends BaseDomain {
 		validarDomain();
 	}
 
-	public Proprietario(Integer id, String nomeProprietario, String endereco, String numero, String telefone,
-			String cpf) {
+	public Proprietario(Integer id, String nomeProprietario, String endereco, String numero, String telefone, String cpf) {
 		this(nomeProprietario, endereco, numero, telefone, cpf);
 		this.id = id;
 	}

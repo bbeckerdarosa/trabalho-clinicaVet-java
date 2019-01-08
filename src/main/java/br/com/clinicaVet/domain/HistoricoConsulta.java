@@ -34,15 +34,19 @@ public class HistoricoConsulta extends BaseDomain {
 	@JoinColumn(name = "veterinarioid")
 	private Veterinario veterinario;
 
-	public HistoricoConsulta(LocalDate dataAtendimento, String diagnostico, Veterinario veterinario) {
-		this.dataAtendimento = dataAtendimento;
+	@SuppressWarnings("unused")
+	private HistoricoConsulta() {
+	}
+	
+	public HistoricoConsulta(String diagnostico, Veterinario veterinario) {
+		this.dataAtendimento = LocalDate.now();
 		this.diagnostico = diagnostico;
 		this.veterinario = veterinario;
 		validarDomain();
 	}
 
-	public HistoricoConsulta(Integer id, LocalDate dataAtendimento, String diagnostico, Veterinario veterinario) {
-		this(dataAtendimento, diagnostico, veterinario);
+	public HistoricoConsulta(Integer id, String diagnostico, Veterinario veterinario) {
+		this(diagnostico, veterinario);
 		this.id = id;
 	}
 

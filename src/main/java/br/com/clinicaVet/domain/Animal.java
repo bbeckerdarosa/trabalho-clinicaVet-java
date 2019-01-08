@@ -52,7 +52,7 @@ public class Animal extends BaseDomain {
 	private LocalDate dataNascimento;
 
 	@Column(name = "historico_consulta")
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
 	@JoinColumn(name = "historico_consultaid")
 	private List<HistoricoConsulta> historicoConsulta;
 
@@ -111,7 +111,7 @@ public class Animal extends BaseDomain {
 		return historicoConsulta;
 	}
 	
-	public void setNovoHistorico(HistoricoConsulta historicoConsulta) {
+	public void adicionarConsulta(HistoricoConsulta historicoConsulta) {
 		this.historicoConsulta.add(historicoConsulta);
 	}
 

@@ -64,17 +64,15 @@ public class ProprietarioService {
 	}
 
 	public Proprietario update(ProprietarioDTO proprietarioDTO) {
-		Optional<Proprietario> existentProprietario = proprietarioRepository.findByCpf(proprietarioDTO.getCpf());
-//		Integer id = proprietarioDTO.getId();
-//		String nomeProprietario = proprietarioDTO.getNomeProprietario();
-//		String endereco = proprietarioDTO.getEndereco();
-//		String numero = proprietarioDTO.getNumero();
-//		String telefone = proprietarioDTO.getTelefone();
-//		String cpf = proprietarioDTO.getCpf();
-//		existentProprietario.set
-//		Proprietario proprietario = new Proprietario(id, nomeProprietario, endereco, numero, telefone, cpf);
-//		return this.proprietarioRepository.saveAndFlush(proprietario);
-		return null;
+		Integer id = proprietarioDTO.getId();
+		String nomeProprietario = proprietarioDTO.getNomeProprietario();
+		String endereco = proprietarioDTO.getEndereco();
+		String numero = proprietarioDTO.getNumero();
+		String telefone = proprietarioDTO.getTelefone();
+		String cpf = proprietarioDTO.getCpf();
+
+		Proprietario proprietario = new Proprietario(id, nomeProprietario, endereco, numero, telefone, cpf);
+		return this.proprietarioRepository.saveAndFlush(proprietario);
 	}
 
 	public List<ProprietarioDTO> findAll() {

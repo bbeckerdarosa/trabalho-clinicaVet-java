@@ -3,14 +3,10 @@ package br.com.clinicaVet.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.clinicaVet.domain.Proprietario;
 import br.com.clinicaVet.domain.Animal.TipoAnimal;
-import br.com.clinicaVet.domain.HistoricoConsulta;
 
 public class AnimalDTO {
 
@@ -24,10 +20,10 @@ public class AnimalDTO {
 	@NotEmpty
 	private String raca;
 
-	@ManyToOne
-	@JoinColumn(name = "proprietarioid")
-	private Proprietario proprietario;
+	private String proprietario;
 
+	private String cpfProprietario;
+	
 	@NotNull
 	@NotEmpty
 	private String nroChip;
@@ -35,7 +31,7 @@ public class AnimalDTO {
 	@NotNull
 	private LocalDate dataNascimento;
 
-	private List<HistoricoConsulta> historicoConsulta;
+	private List<HistoricoConsultaDTO> historicoConsulta;
 
 	private TipoAnimal tipoAnimal;
 
@@ -63,14 +59,22 @@ public class AnimalDTO {
 		this.raca = raca;
 	}
 
-	public Proprietario getProprietario() {
+	public String getProprietario() {
 		return proprietario;
 	}
-
-	public void setProprietario(Proprietario proprietario) {
+	
+	public void setProprietario(String proprietario) {
 		this.proprietario = proprietario;
 	}
 
+	public String getCpfProprietario() {
+		return cpfProprietario;
+	}
+	
+	public void setCpfProprietario(String cpfProprietario) {
+		this.cpfProprietario = cpfProprietario;
+	}
+	
 	public String getNroChip() {
 		return nroChip;
 	}
@@ -87,14 +91,14 @@ public class AnimalDTO {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public List<HistoricoConsulta> getHistoricoConsulta() {
+	public List<HistoricoConsultaDTO> getHistoricoConsulta() {
 		return historicoConsulta;
 	}
 
-	public void setHistoricoConsulta(List<HistoricoConsulta> historicoConsulta) {
+	public void setHistoricoConsulta(List<HistoricoConsultaDTO> historicoConsulta) {
 		this.historicoConsulta = historicoConsulta;
 	}
-
+	
 	public TipoAnimal getTipoAnimal() {
 		return tipoAnimal;
 	}
