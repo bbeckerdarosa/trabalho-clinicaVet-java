@@ -50,9 +50,9 @@ public class AnimalServiceTest {
 
 	@After
 	public void finished() {
+		animalService.deleteAll();
 		proprietarioRepo.deleteAll();
 		veterinarioRepo.deleteAll();
-		animalService.deleteAll();
 	}
 
 	@Test
@@ -87,9 +87,9 @@ public class AnimalServiceTest {
 		animalParaSalvar.setNroChip("48596");
 		animalParaSalvar.setDataNascimento(LocalDate.of(2017, Month.SEPTEMBER, 11));
 		animalParaSalvar.setTipoAnimal(TipoAnimal.CACHORRO);
-		
+
 		animalService.save(animalParaSalvar);
-		
+
 		HistoricoConsultaDTO historicoAtendimento1 = new HistoricoConsultaDTO();
 		historicoAtendimento1.setDiagnostico("O animal esta com as patas assadas. Receitamos Prednisolona 20mg");
 		historicoAtendimento1.setCpfVeterinario(danielle.getCpf());
@@ -97,10 +97,10 @@ public class AnimalServiceTest {
 		HistoricoConsultaDTO historicoAtendimento2 = new HistoricoConsultaDTO();
 		historicoAtendimento2.setDiagnostico("O animal esta com as patas assadas. Receitamos Prednisolona 20mg");
 		historicoAtendimento2.setCpfVeterinario(danielle.getCpf());
-		
+
 		animalService.salvarConsulta("48596", historicoAtendimento1);
 		animalService.salvarConsulta("48596", historicoAtendimento2);
-		
+
 		AnimalDTO animalComHistorico = animalService.findByNroChip("48596");
 		assertEquals(2, animalComHistorico.getHistoricoConsulta().size());
 	}

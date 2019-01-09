@@ -31,6 +31,10 @@ public class AnimalDTO {
 	@NotNull
 	private LocalDate dataNascimento;
 
+	// inclusao
+	private HistoricoConsultaDTO historicoConsultaDTO;
+	
+	// consulta
 	private List<HistoricoConsultaDTO> historicoConsulta;
 
 	private TipoAnimal tipoAnimal;
@@ -105,6 +109,14 @@ public class AnimalDTO {
 
 	public void setTipoAnimal(TipoAnimal tipoAnimal) {
 		this.tipoAnimal = tipoAnimal;
+	}
+	
+	public HistoricoConsultaDTO getHistoricoConsultaDTO() {
+		return historicoConsultaDTO;
+	}
+	
+	public void setHistoricoConsultaDTO(HistoricoConsultaDTO historicoConsultaDTO) {
+		this.historicoConsultaDTO = historicoConsultaDTO;
 	}
 
 }

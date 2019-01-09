@@ -52,8 +52,7 @@ public class Animal extends BaseDomain {
 	private LocalDate dataNascimento;
 
 	@Column(name = "historico_consulta")
-	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = true)
-	@JoinColumn(name = "historico_consultaid")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy="animal")
 	private List<HistoricoConsulta> historicoConsulta;
 
 	@Enumerated(EnumType.STRING)
@@ -65,8 +64,7 @@ public class Animal extends BaseDomain {
 		// construtor for hibernate
 	}
 
-	public Animal(String nomeAnimal, String raca, Proprietario proprietario, String nroChip, LocalDate dataNascimento,
-			TipoAnimal tipoAnimal) {
+	public Animal(String nomeAnimal, String raca, Proprietario proprietario, String nroChip, LocalDate dataNascimento, TipoAnimal tipoAnimal) {
 		this.nomeAnimal = nomeAnimal;
 		this.raca = raca;
 		this.proprietario = proprietario;
@@ -77,8 +75,7 @@ public class Animal extends BaseDomain {
 		validarDomain();
 	}
 
-	public Animal(Integer id, String nomeAnimal, String raca, Proprietario proprietario, String nroChip,
-			LocalDate dataNascimento, TipoAnimal tipoAnimal) {
+	public Animal(Integer id, String nomeAnimal, String raca, Proprietario proprietario, String nroChip, LocalDate dataNascimento, TipoAnimal tipoAnimal) {
 		this(nomeAnimal, raca, proprietario, nroChip, dataNascimento, tipoAnimal);
 		this.id = id;
 	}
@@ -112,6 +109,7 @@ public class Animal extends BaseDomain {
 	}
 	
 	public void adicionarConsulta(HistoricoConsulta historicoConsulta) {
+		historicoConsulta.informarAnimal(this);
 		this.historicoConsulta.add(historicoConsulta);
 	}
 

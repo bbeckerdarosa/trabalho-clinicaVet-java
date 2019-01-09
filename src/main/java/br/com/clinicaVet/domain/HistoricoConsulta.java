@@ -34,10 +34,14 @@ public class HistoricoConsulta extends BaseDomain {
 	@JoinColumn(name = "veterinarioid")
 	private Veterinario veterinario;
 
+	@ManyToOne
+	@JoinColumn(name = "animalid")
+	private Animal animal;
+	
 	@SuppressWarnings("unused")
 	private HistoricoConsulta() {
 	}
-	
+
 	public HistoricoConsulta(String diagnostico, Veterinario veterinario) {
 		this.dataAtendimento = LocalDate.now();
 		this.diagnostico = diagnostico;
@@ -64,6 +68,10 @@ public class HistoricoConsulta extends BaseDomain {
 
 	public Veterinario getVeterinario() {
 		return veterinario;
+	}
+
+	void informarAnimal(Animal animal) {
+		this.animal = animal;
 	}
 
 }

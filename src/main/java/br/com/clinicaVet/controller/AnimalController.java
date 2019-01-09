@@ -3,7 +3,6 @@ package br.com.clinicaVet.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +49,7 @@ public class AnimalController {
 	}
 
 	@PostMapping(value = "/animal/{nroChip}/realizar-consulta")
-	public ResponseEntity<?> salvarConsulta(@PathParam("nroChip") String nroChip, @RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
+	public ResponseEntity<?> salvarConsulta(@PathVariable("nroChip") String nroChip, @RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
 		this.animalService.salvarConsulta(nroChip, historicoConsultaDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

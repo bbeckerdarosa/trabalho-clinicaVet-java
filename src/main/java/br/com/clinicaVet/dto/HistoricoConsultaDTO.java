@@ -9,14 +9,19 @@ public class HistoricoConsultaDTO {
 
 	private Integer id;
 
-	@NotNull
 	private LocalDate dataAtendimento;
 
 	@NotNull
 	@NotEmpty
 	private String diagnostico;
 
+	@NotNull
+	@NotEmpty
 	private String cpfVeterinario;
+
+	@NotNull
+	@NotEmpty
+	private String nomeVeterinario;
 
 	public Integer getId() {
 		return id;
@@ -48,6 +53,14 @@ public class HistoricoConsultaDTO {
 
 	public void setCpfVeterinario(String cpfVeterinario) {
 		this.cpfVeterinario = cpfVeterinario;
+	}
+
+	public String getNomeVeterinario() {
+		return nomeVeterinario;
+	}
+
+	public void setNomeVeterinario(String nomeVeterinario) {
+		this.nomeVeterinario = nomeVeterinario;
 	}
 
 }

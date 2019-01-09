@@ -31,7 +31,8 @@ public class AnimalService {
 	private ProprietarioRepository proprietarioRepository;
 
 	@Autowired
-	public AnimalService(AnimalRepository animalRepository, VeterinarioRepository veterinarioRepository,ProprietarioRepository proprietarioRepository) {
+	public AnimalService(AnimalRepository animalRepository, VeterinarioRepository veterinarioRepository,
+			ProprietarioRepository proprietarioRepository) {
 		this.animalRepository = animalRepository;
 		this.veterinarioRepository = veterinarioRepository;
 		this.proprietarioRepository = proprietarioRepository;
@@ -42,7 +43,8 @@ public class AnimalService {
 	}
 
 	public void save(AnimalDTO animalDTO) {
-		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository.findByCpf(animalDTO.getCpfProprietario());
+		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository
+				.findByCpf(animalDTO.getCpfProprietario());
 		String nomeAnimal = animalDTO.getNomeAnimal();
 		String raca = animalDTO.getRaca();
 		Proprietario proprietario = proprietarioEncontrado.get();
@@ -76,7 +78,8 @@ public class AnimalService {
 			historicoDTO.setId(historicoConsulta.getId());
 			historicoDTO.setDataAtendimento(historicoConsulta.getDataAtendimento());
 			historicoDTO.setDiagnostico(historicoConsulta.getDiagnostico());
-			historicoDTO.setCpfVeterinario(historicoConsulta.getVeterinario().getNomeVeterinario());
+			historicoDTO.setCpfVeterinario(historicoConsulta.getVeterinario().getCpf());
+			historicoDTO.setNomeVeterinario(historicoConsulta.getVeterinario().getNomeVeterinario());
 			retorno.add(historicoDTO);
 		}
 
@@ -97,7 +100,8 @@ public class AnimalService {
 	}
 
 	public Animal update(AnimalDTO animalDTO) {
-		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository.findByCpf(animalDTO.getCpfProprietario());
+		Optional<Proprietario> proprietarioEncontrado = proprietarioRepository
+				.findByCpf(animalDTO.getCpfProprietario());
 
 		Integer id = animalDTO.getId();
 		String nomeAnimal = animalDTO.getNomeAnimal();
@@ -131,7 +135,8 @@ public class AnimalService {
 
 	public void salvarConsulta(String nroChip, HistoricoConsultaDTO historicoConsultaDTO) {
 		// Buscar o veterinário
-		Optional<Veterinario> veterinarioEncontrado = this.veterinarioRepository.findByCpf(historicoConsultaDTO.getCpfVeterinario());
+		Optional<Veterinario> veterinarioEncontrado = this.veterinarioRepository
+				.findByCpf(historicoConsultaDTO.getCpfVeterinario());
 
 		// buscar animal
 		Optional<Animal> animalEncontrado = this.animalRepository.findByNroChip(nroChip);
