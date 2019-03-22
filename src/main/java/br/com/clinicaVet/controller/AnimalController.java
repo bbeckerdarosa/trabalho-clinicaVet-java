@@ -32,6 +32,8 @@ public class AnimalController {
 
 	@GetMapping(value = "/animal")
 	public ResponseEntity<List<AnimalDTO>> obterAnimal() {
+		AnimalCounterSingleton.INSTANCE.inc();
+
 		List<AnimalDTO> animal = animalService.findAll();
 		return new ResponseEntity<>(animal, HttpStatus.OK);
 	}
