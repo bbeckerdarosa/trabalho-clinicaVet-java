@@ -8,4 +8,8 @@ public enum AnimalCounterSingleton {
     public void inc() {
         this.counter++;
     }
+
+    public int getValor() {
+        return this.counter;
+    }
 }
