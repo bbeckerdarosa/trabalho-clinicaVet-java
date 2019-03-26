@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.clinicaVet.dto.AnimalDTO;
 import br.com.clinicaVet.dto.HistoricoConsultaDTO;
+import br.com.clinicaVet.metrics.AnimalCounterSingleton;
 import br.com.clinicaVet.service.AnimalService;
 
 @RestController
@@ -51,7 +52,8 @@ public class AnimalController {
 	}
 
 	@PostMapping(value = "/animal/{nroChip}/realizar-consulta")
-	public ResponseEntity<?> salvarConsulta(@PathVariable("nroChip") String nroChip, @RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
+	public ResponseEntity<?> salvarConsulta(@PathVariable("nroChip") String nroChip,
+			@RequestBody HistoricoConsultaDTO historicoConsultaDTO) {
 		this.animalService.salvarConsulta(nroChip, historicoConsultaDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

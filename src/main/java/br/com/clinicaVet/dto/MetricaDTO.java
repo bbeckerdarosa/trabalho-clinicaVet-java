@@ -1,13 +1,5 @@
 package br.com.clinicaVet.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import br.com.clinicaVet.domain.Animal.TipoAnimal;
-
 public class MetricaDTO {
 
 	private Integer counter;

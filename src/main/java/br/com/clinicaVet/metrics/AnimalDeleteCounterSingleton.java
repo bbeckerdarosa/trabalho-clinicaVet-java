@@ -1,6 +1,6 @@
 package br.com.clinicaVet.metrics;
 
-public enum AnimalCounterSingleton {
+public enum AnimalDeleteCounterSingleton {
 	INSTANCE;
 
 	private int counter = 0;
